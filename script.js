@@ -32,8 +32,20 @@ function Book(title, author, pages, isRead) {
 //   return this.title+" by "+this.author+", "+this.pages+" pages, "+read;
 // }
 
-function removeBook() {
+function toggleStatus() {
+  console.log(myLibrary[this.bookIndex]);
+  const isRead = this.parentElement.children[3];
+  if (isRead.textContent === "isRead: true") {
+    isRead.textContent = "isRead: false";
+    myLibrary[this.bookIndex].isRead = false;
+  } else {
+  isRead.textContent = "isRead: true";
+  myLibrary[this.bookIndex].isRead = true;
+  }
+  console.log(myLibrary[this.bookIndex]);
+}
 
+function removeBook() {
  this.parentElement.remove();
  console.log(myLibrary[this.bookIndex]);
  myLibrary.splice(this.bookindex,1);
@@ -42,9 +54,10 @@ function removeBook() {
 
 function updateDisplay(book, bookIndex) {
   const bookContainer = document.getElementById('books-container')
-  let bookCardFragment = document.createDocumentFragment();
-  let bookCard = document.createElement('div');
-  let btnRemove = document.createElement('button');
+  const bookCardFragment = document.createDocumentFragment();
+  const bookCard = document.createElement('div');
+  const btnRemove = document.createElement('button');
+  const btnToggle = document.createElement('button');
 
   bookCard.className = "book-card";
   Object.keys(book).forEach((key) => {
@@ -52,13 +65,20 @@ function updateDisplay(book, bookIndex) {
     p.textContent = key+": "+book[key];
     bookCardFragment.appendChild(p);
   });
-  
+
   btnRemove.className = "btn-remove";
   btnRemove.innerHTML = "Remove";
   btnRemove.bookIndex = bookIndex;
   btnRemove.addEventListener('click', removeBook);
+
+  btnToggle.className = "btn-toggle";
+  btnToggle.innerHTML = "Toggle Status";
+  btnToggle.bookIndex = bookIndex;
+  btnToggle.addEventListener('click', toggleStatus);
+
   bookCard.appendChild(bookCardFragment);
   bookCard.appendChild(btnRemove);
+  bookCard.appendChild(btnToggle);
   bookContainer.appendChild(bookCard);
 }
 
