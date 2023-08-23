@@ -28,41 +28,55 @@ function updateDisplay(book, bookIndex) {
   const bookCol = document.createElement('div');
   const bookCard = document.createElement('div');
   const bookCardBody = document.createElement('div');
+  const bookCardFooter = document.createElement('div');
+  const bookCardHeader = document.createElement('div');
   const btnRemove = document.createElement('button');
   const btnToggle = document.createElement('button');
 
   bookCol.className = "col";
-  bookCard.className = "card";
-  bookCardBody.className = "card-body";
-  Object.keys(book).forEach((key) => {
-    let p = document.createElement('p');
-    p.textContent = key+": "+book[key];
-    (key==="title")? p.innerHTML = ('<p class="card-header"><b>'+book[key]+'</p>'):{};
-    if (key==="status") {
-      (book[key]===true)? p.textContent = "Status: read":
-                          p.textContent = "Status: unread";
-    }
+  bookCard.className = "card h-100 border-light shadow bg-body-tertiary rounded";
+  bookCardBody.className = "card-body text-secondary px-4 ";
+  bookCardFooter.className = "card-footer1";
+  bookCardHeader.className = "card-header text-center text-uppercase position-relative";
 
-    bookCardFragment.appendChild(p);
-  });
-
-  btnRemove.className = "btn-remove";
-  btnRemove.innerHTML = "Remove";
+  btnRemove.className = "btn-close position-absolute top-0 end-0";
+  btnRemove.setAttribute("aria-label", "Close");
+  btnRemove.innerHTML = "";
   btnRemove.bookIndex = bookIndex;
   btnRemove.addEventListener('click', removeBook);
 
-  btnToggle.className = "btn-toggle";
+  btnToggle.className = "btn btn-primary btn-sm";
   btnToggle.innerHTML = "Toggle status";
   btnToggle.bookIndex = bookIndex;
   btnToggle.addEventListener('click', () => {
     toggleStatus(book,bookCardBody);
   });
 
+  Object.keys(book).forEach((key) => {
+    let p = document.createElement('p');
+    p.className = "card-text";
+    p.textContent = key+": "+book[key];
+    if (key==="title") {
+      p.innerHTML = "<b>"+book[key]+"</b>";
+      bookCardHeader.appendChild(p);
+      bookCardHeader.appendChild(btnRemove);
+      bookCard.appendChild(bookCardHeader);
+      return;
+    };
+    if (key==="status") {
+      (book[key]===true)? p.textContent = "Status: read":
+                          p.textContent = "Status: unread";
+    }
+    
+    bookCardFragment.appendChild(p);
+  });
+
   bookCol.appendChild(bookCard);
   bookCard.appendChild(bookCardBody);
   bookCardBody.appendChild(bookCardFragment);
-  bookCardBody.appendChild(btnRemove);
-  bookCardBody.appendChild(btnToggle);
+  // bookCardFooter.appendChild(btnRemove);
+  bookCardFooter.appendChild(btnToggle);
+  bookCard.appendChild(bookCardFooter);
   bookContainer.appendChild(bookCol);
 }
 
