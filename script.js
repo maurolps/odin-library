@@ -26,11 +26,13 @@ function removeBook() {
 function updateDisplay(book, bookIndex) {
   const bookContainer = document.getElementById('books-container')
   const bookCardFragment = document.createDocumentFragment();
+  const bookCol = document.createElement('div');
   const bookCard = document.createElement('div');
   const btnRemove = document.createElement('button');
   const btnToggle = document.createElement('button');
 
-  bookCard.className = "book-card";
+  bookCol.className = "col";
+  bookCard.className = "card";
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.textContent = key+": "+book[key];
@@ -55,10 +57,11 @@ function updateDisplay(book, bookIndex) {
     toggleStatus(book,bookCard);
   });
 
+  bookCol.appendChild(bookCard);
   bookCard.appendChild(bookCardFragment);
   bookCard.appendChild(btnRemove);
   bookCard.appendChild(btnToggle);
-  bookContainer.appendChild(bookCard);
+  bookContainer.appendChild(bookCol);
 }
 
 function addBookModal(){
