@@ -18,9 +18,8 @@ function toggleStatus(book, bookCard) {
 }
 
 function removeBook() {
- this.parentElement.remove();
+ this.parentElement.parentElement.parentElement.remove();
  myLibrary.splice(this.bookindex,1);
-//  console.log("Total in library: "+myLibrary.length);
 }
 
 function updateDisplay(book, bookIndex) {
@@ -28,18 +27,20 @@ function updateDisplay(book, bookIndex) {
   const bookCardFragment = document.createDocumentFragment();
   const bookCol = document.createElement('div');
   const bookCard = document.createElement('div');
+  const bookCardBody = document.createElement('div');
   const btnRemove = document.createElement('button');
   const btnToggle = document.createElement('button');
 
   bookCol.className = "col";
   bookCard.className = "card";
+  bookCardBody.className = "card-body";
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.textContent = key+": "+book[key];
-    (key==="title")? p.textContent = book[key]:{};
+    (key==="title")? p.innerHTML = ('<p class="card-header"><b>'+book[key]+'</p>'):{};
     if (key==="status") {
       (book[key]===true)? p.textContent = "Status: read":
-                            p.textContent = "Status: unread";
+                          p.textContent = "Status: unread";
     }
 
     bookCardFragment.appendChild(p);
@@ -54,13 +55,14 @@ function updateDisplay(book, bookIndex) {
   btnToggle.innerHTML = "Toggle status";
   btnToggle.bookIndex = bookIndex;
   btnToggle.addEventListener('click', () => {
-    toggleStatus(book,bookCard);
+    toggleStatus(book,bookCardBody);
   });
 
   bookCol.appendChild(bookCard);
-  bookCard.appendChild(bookCardFragment);
-  bookCard.appendChild(btnRemove);
-  bookCard.appendChild(btnToggle);
+  bookCard.appendChild(bookCardBody);
+  bookCardBody.appendChild(bookCardFragment);
+  bookCardBody.appendChild(btnRemove);
+  bookCardBody.appendChild(btnToggle);
   bookContainer.appendChild(bookCol);
 }
 
@@ -81,5 +83,5 @@ btnNew.addEventListener('click', addBookModal);
 
 addBookToLibrary("The Alpinist","J.C. Boro",520,true);
 addBookToLibrary("More than a Glich","M. Broussard",248,true);
-addBookToLibrary("Calculus for Dummies","M. Ryan",384,true);
+addBookToLibrary("Calculus for Dummies","M. Ryan",384,false);
 
