@@ -1,55 +1,26 @@
-const myLibrary = [
-  {
-    title: "The Alpinist",
-    author: "JC Boro",
-    pages: 200,
-    isRead: false,
-  },
-  {
-    title: "The Alpinist2",
-    author: "JC Boro2",
-    pages: 202,
-    isRead: true,
-  },
-  {
-    title: "The Alpinist3",
-    author: "JC Boro3",
-    pages: 203,
-    isRead: true,
-  },
-]
+const myLibrary = []
 
-function Book(title, author, pages, isRead) {
+function Book(title, author, pages, status) {
   this.title = title;
   this.author = author;
   this.pages = pages;
-  this.isRead = isRead;
+  this.status = status;
 }
 
-// Book.prototype.info = function () {
-//   let read = "";
-//   this.isRead? read = "already readed": read = "not read yet";
-//   return this.title+" by "+this.author+", "+this.pages+" pages, "+read;
-// }
+Book.prototype.toggle = function () {
+  this.status? this.status = false: this.status = true;
+}
 
-function toggleStatus() {
-  console.log(myLibrary[this.bookIndex]);
-  const isRead = this.parentElement.children[3];
-  if (isRead.textContent === "isRead: true") {
-    isRead.textContent = "isRead: false";
-    myLibrary[this.bookIndex].isRead = false;
-  } else {
-  isRead.textContent = "isRead: true";
-  myLibrary[this.bookIndex].isRead = true;
-  }
-  console.log(myLibrary[this.bookIndex]);
+function toggleStatus(book, bookCard) {
+  book.toggle();
+  const status = bookCard.children[3];
+  book.status? status.textContent = "Status: read": status.textContent = "Status: unread";
 }
 
 function removeBook() {
  this.parentElement.remove();
- console.log(myLibrary[this.bookIndex]);
  myLibrary.splice(this.bookindex,1);
- console.log("Total in library: "+myLibrary.length);
+//  console.log("Total in library: "+myLibrary.length);
 }
 
 function updateDisplay(book, bookIndex) {
@@ -63,6 +34,12 @@ function updateDisplay(book, bookIndex) {
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.textContent = key+": "+book[key];
+    (key==="title")? p.textContent = book[key]:{};
+    if (key==="status") {
+      (book[key]===true)? p.textContent = "Status: read":
+                            p.textContent = "Status: unread";
+    }
+
     bookCardFragment.appendChild(p);
   });
 
@@ -72,9 +49,11 @@ function updateDisplay(book, bookIndex) {
   btnRemove.addEventListener('click', removeBook);
 
   btnToggle.className = "btn-toggle";
-  btnToggle.innerHTML = "Toggle Status";
+  btnToggle.innerHTML = "Toggle status";
   btnToggle.bookIndex = bookIndex;
-  btnToggle.addEventListener('click', toggleStatus);
+  btnToggle.addEventListener('click', () => {
+    toggleStatus(book,bookCard);
+  });
 
   bookCard.appendChild(bookCardFragment);
   bookCard.appendChild(btnRemove);
@@ -82,8 +61,12 @@ function updateDisplay(book, bookIndex) {
   bookContainer.appendChild(bookCard);
 }
 
-function addBookToLibrary() {
-  const newBook = new Book('The Hobbit','J.R.R Tolkien','295', true);
+function addBookModal(){
+  addBookToLibrary("New book", "new author", 1, false);
+}
+
+function addBookToLibrary(title, author, pages, status) {
+  const newBook = new Book(title, author, pages, status);
   const bookIndex = (myLibrary.push(newBook) - 1);
 
   updateDisplay(newBook, bookIndex);
@@ -91,6 +74,9 @@ function addBookToLibrary() {
 }
 
 const btnNew = document.getElementById('btn-newBook');
-btnNew.addEventListener('click', addBookToLibrary);
+btnNew.addEventListener('click', addBookModal);
 
+addBookToLibrary("The Alpinist","J.C. Boro",520,true);
+addBookToLibrary("More than a Glich","M. Broussard",248,true);
+addBookToLibrary("Calculus for Dummies","M. Ryan",384,true);
 
