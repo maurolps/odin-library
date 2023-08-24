@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(53, 58, 61);
+  background-color: rgb(244, 248, 255);
 }
 
 .icon {
@@ -7,7 +7,19 @@ body {
 }
 
 #btn-newBook {
-  max-width: 150px;
+  width: 60px;
+  height: 60px; 
+  font-size: 46px;
   bottom: 50px;
   left: 50%;
+  border-radius: 50% 50%;
+}
+
+.plus {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  top: 5;
+  bottom: 0;
 }
