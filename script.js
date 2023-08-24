@@ -15,11 +15,11 @@ function toggleStatus(book, bookCard, btnToggle) {
   book.toggle();
   const status = bookCard.children[2];
   if(book.status) { 
-    status.textContent = "Status: read";
+    status.textContent = "status: Read";
     btnToggle.checked = true;
   }
   else { 
-    status.textContent = "Status: unread"; 
+    status.textContent = "status: Unread"; 
     btnToggle.checked = false;
   }
 }
@@ -44,12 +44,12 @@ function updateDisplay(book, bookIndex) {
   const btnToggleLabel = document.createElement('label');
 
   bookCol.className = "col";
-  bookCard.className = "card h-100 border-light shadow-sm bg-body-tertiary rounded";
+  bookCard.className = "card h-100 border-light shadow bg-body-tertiary rounded ";
   bookCardBody.className = "card-body text-secondary px-4 ";
   bookCardFooter.className = "card-footer bg-light";
   bookCardHeader.className = "card-header text-center  text-uppercase pt-4";
 
-  btnRemove.className = "btn-close position-absolute top-0 end-0";
+  btnRemove.className = "btn-close position-absolute top-0 end-0 border-danger";
   btnRemove.setAttribute("aria-label", "Close");
   btnRemove.innerHTML = "";
   btnRemove.bookIndex = bookIndex;
@@ -80,7 +80,7 @@ function updateDisplay(book, bookIndex) {
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.className = "card-text";
-    p.textContent = key+": "+book[key];
+    p.innerHTML = key+": "+book[key];
     if (key==="title") {
       p.innerHTML = '<img class="icon position-absolute top-0 start-50 " src="assets/book.svg" alt="LIBRARY"> <b>'+book[key]+'</b>';
       bookCardHeader.appendChild(p);
@@ -90,12 +90,12 @@ function updateDisplay(book, bookIndex) {
     };
     if (key==="status") {
       if(book[key]===true){ 
-        p.innerHTML = "Status: read";
+        p.innerHTML = "status: Read";
         // btnToggle.innerHTML = "Mark Unread";
         // btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
         btnToggleInput.checked = true;
       } else {
-        p.innerHTML = "Status: unread";
+        p.innerHTML = "status: Unread";
         // btnToggle.innerHTML = "Mark read";
         // btnToggle.className = "btn btn-success rounded-pill btn-sm";
         btnToggleInput.checked = false;
