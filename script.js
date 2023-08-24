@@ -114,8 +114,13 @@ function updateDisplay(book, bookIndex) {
   bookContainer.appendChild(bookCol);
 }
 
-function addBookModal(){
-  addBookToLibrary("New book", "new author", 1, false);
+function addBookModal(e){
+  const bookTitle = document.getElementById("validation1");
+  const bookAuthor = document.getElementById("validation2");
+  const bookPages = document.getElementById("validation3");
+  addBookToLibrary(bookTitle.value, bookAuthor.value, bookPages.value, false);
+  e.preventDefault();
+  document.getElementById("btn-closeModal").click();
 }
 
 function addBookToLibrary(title, author, pages, status) {
@@ -126,10 +131,12 @@ function addBookToLibrary(title, author, pages, status) {
   console.log("Total in library: "+myLibrary.length);
 }
 
-const btnNew = document.getElementById('btn-newBook');
-btnNew.addEventListener('click', addBookModal);
+const formAddBook = document.getElementById('form-addBook');
+formAddBook.addEventListener('submit', addBookModal);
 
-addBookToLibrary("The Alpinist","J.C. Boro",520,true);
+
 addBookToLibrary("More than a Glich","M. Broussard",248,true);
 addBookToLibrary("Calculus for Dummies","M. Ryan",384,false);
+addBookToLibrary("Quantum Mechanics","L. Susskind",384,true);
+
 

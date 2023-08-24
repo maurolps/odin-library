@@ -10,20 +10,55 @@
   <title>Library</title>
 </head>
 <body>
-  <div class="grid text-center bg-white ">
+  <div class="grid text-center bg-primary text-white ">
     <div class="row p-4 mb-5 shadow-sm position-relative">
       <div class="col">
         <h1>LIBRARY</h1>
       </div>
   </div>
   </div>
-  <div class="container bg-white pb-4" >
-    <div id="books-container" class="row row-cols-2 row-cols-md-3 g-4">
-
+  <div class="container bg-white p-2 shadow" >
+    <span class="input-group-text m-3"></span>
+    <div id="books-container" class="row row-cols-2 row-cols-md-3 g-4 ">
+      <!-- Dinamic Book cards here -->
     </div>
   </div>
+
+  <!-- Modal -->
   <div class="grid text-center mt-5 position-relative">
-    <button id="btn-newBook" class="btn btn-outline-primary shadow-sm mb-5 fixed-bottom "><span class="plus">+</span></button>
+      <button type="button" id="btn-newBook" class="btn btn-outline-primary shadow-sm mb-5 fixed-bottom " data-bs-toggle="modal" data-bs-target="#addBookModal"><span class="plus">+</span></button>
+    </div>
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="addBookModalLabel">NEW BOOK</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Form -->
+          <form class="row g-3 " id="form-addBook">
+            <div class="row-md-4">
+              <label for="validation1" class="form-label">Title</label>
+              <input type="text" class="form-control" id="validation1" style="max-width: 400px" required>
+            </div>
+            <div class="row-md-4">
+              <label for="validation2" class="form-label">Author</label>
+              <input type="text" class="form-control" id="validation2" style="max-width: 400px" required>
+            </div>
+            <div class="row-md-3">
+              <label for="validation3" class="form-label">Number of pages</label>
+              <input type="number" class="form-control" id="validation3" style="max-width: 400px" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" id="btn-closeModal" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" id="btn-addBook">ADD</button>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
