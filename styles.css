@@ -1,5 +1,5 @@
 body {
-  background-color: rgb(244, 248, 255);
+  background-color: rgb(255, 255, 255);
 }
 
 .icon {
@@ -22,4 +22,8 @@ body {
   left: 0;
   top: 5;
   bottom: 0;
+}
+
+.container {
+  background-color: rgb(241, 247, 255) !important;
 }
