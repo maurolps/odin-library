@@ -11,10 +11,19 @@ Book.prototype.toggle = function () {
   this.status? this.status = false: this.status = true;
 }
 
-function toggleStatus(book, bookCard) {
+function toggleStatus(book, bookCard, btnToggle) {
   book.toggle();
-  const status = bookCard.children[3];
-  book.status? status.textContent = "Status: read": status.textContent = "Status: unread";
+  const status = bookCard.children[2];
+  if(book.status) { 
+    status.textContent = "Status: read";
+    btnToggle.innerHTML = "Mark Unread";
+    btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
+  }
+  else { 
+    status.textContent = "Status: unread"; 
+    btnToggle.innerHTML = "Mark read";
+    btnToggle.className = "btn btn-success rounded-pill btn-sm";
+  }
 }
 
 function removeBook() {
@@ -36,7 +45,7 @@ function updateDisplay(book, bookIndex) {
   bookCol.className = "col";
   bookCard.className = "card h-100 border-light shadow bg-body-tertiary rounded";
   bookCardBody.className = "card-body text-secondary px-4 ";
-  bookCardFooter.className = "card-footer1";
+  bookCardFooter.className = "card-footer d-flex justify-content-center";
   bookCardHeader.className = "card-header text-center text-uppercase position-relative";
 
   btnRemove.className = "btn-close position-absolute top-0 end-0";
@@ -45,11 +54,11 @@ function updateDisplay(book, bookIndex) {
   btnRemove.bookIndex = bookIndex;
   btnRemove.addEventListener('click', removeBook);
 
-  btnToggle.className = "btn btn-primary btn-sm";
-  btnToggle.innerHTML = "Toggle status";
+  btnToggle.className = "btn btn-outline-info rounded-pill btn-sm";
+  btnToggle.innerHTML = "Toggle Status";
   btnToggle.bookIndex = bookIndex;
   btnToggle.addEventListener('click', () => {
-    toggleStatus(book,bookCardBody);
+    toggleStatus(book, bookCardBody, btnToggle);
   });
 
   Object.keys(book).forEach((key) => {
@@ -64,8 +73,15 @@ function updateDisplay(book, bookIndex) {
       return;
     };
     if (key==="status") {
-      (book[key]===true)? p.textContent = "Status: read":
-                          p.textContent = "Status: unread";
+      if(book[key]===true){ 
+        p.innerHTML = "Status: <span class=text-success >read</span>";
+        btnToggle.innerHTML = "Mark Unread";
+        btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
+      } else {
+        p.innerHTML = "Status: <span class=text-danger >unread</span>";
+        btnToggle.innerHTML = "Mark read";
+        btnToggle.className = "btn btn-success rounded-pill btn-sm";
+      }
     }
     
     bookCardFragment.appendChild(p);
@@ -74,7 +90,6 @@ function updateDisplay(book, bookIndex) {
   bookCol.appendChild(bookCard);
   bookCard.appendChild(bookCardBody);
   bookCardBody.appendChild(bookCardFragment);
-  // bookCardFooter.appendChild(btnRemove);
   bookCardFooter.appendChild(btnToggle);
   bookCard.appendChild(bookCardFooter);
   bookContainer.appendChild(bookCol);
