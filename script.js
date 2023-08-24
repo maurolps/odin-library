@@ -16,13 +16,11 @@ function toggleStatus(book, bookCard, btnToggle) {
   const status = bookCard.children[2];
   if(book.status) { 
     status.textContent = "Status: read";
-    btnToggle.innerHTML = "Mark Unread";
-    btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
+    btnToggle.checked = true;
   }
   else { 
     status.textContent = "Status: unread"; 
-    btnToggle.innerHTML = "Mark read";
-    btnToggle.className = "btn btn-success rounded-pill btn-sm";
+    btnToggle.checked = false;
   }
 }
 
@@ -40,13 +38,16 @@ function updateDisplay(book, bookIndex) {
   const bookCardFooter = document.createElement('div');
   const bookCardHeader = document.createElement('div');
   const btnRemove = document.createElement('button');
-  const btnToggle = document.createElement('button');
+  // const btnToggle = document.createElement('button');
+  const btnToggleContainer = document.createElement('div');
+  const btnToggleInput = document.createElement('input');
+  const btnToggleLabel = document.createElement('label');
 
   bookCol.className = "col";
-  bookCard.className = "card h-100 border-light shadow bg-body-tertiary rounded";
+  bookCard.className = "card h-100 border-light shadow-sm bg-body-tertiary rounded";
   bookCardBody.className = "card-body text-secondary px-4 ";
-  bookCardFooter.className = "card-footer d-flex justify-content-center";
-  bookCardHeader.className = "card-header text-center text-uppercase position-relative";
+  bookCardFooter.className = "card-footer bg-light";
+  bookCardHeader.className = "card-header text-center  text-uppercase pt-4";
 
   btnRemove.className = "btn-close position-absolute top-0 end-0";
   btnRemove.setAttribute("aria-label", "Close");
@@ -54,19 +55,34 @@ function updateDisplay(book, bookIndex) {
   btnRemove.bookIndex = bookIndex;
   btnRemove.addEventListener('click', removeBook);
 
-  btnToggle.className = "btn btn-outline-info rounded-pill btn-sm";
-  btnToggle.innerHTML = "Toggle Status";
-  btnToggle.bookIndex = bookIndex;
-  btnToggle.addEventListener('click', () => {
-    toggleStatus(book, bookCardBody, btnToggle);
+  btnToggleContainer.className = "form-check form-switch form-check-reverse";
+  btnToggleInput.className = "form-check-input"; 
+  btnToggleInput.type = "checkbox";
+  btnToggleInput.role = "switch";
+  btnToggleInput.id = "switch";
+  btnToggleInput.checked = true;
+  btnToggleLabel.className = "form-check-label";
+  btnToggleLabel.for = "switch";
+  btnToggleLabel.textContent = "Read";
+  btnToggleContainer.appendChild(btnToggleInput);
+  btnToggleContainer.appendChild(btnToggleLabel);
+  btnToggleInput.addEventListener('click', () => {
+  toggleStatus(book, bookCardBody, btnToggleInput);
   });
+
+  // btnToggle.className = "btn btn-outline-info rounded-pill btn-sm";
+  // btnToggle.innerHTML = "Toggle Status";
+  // btnToggle.bookIndex = bookIndex;
+  // btnToggle.addEventListener('click', () => {
+  //   toggleStatus(book, bookCardBody, btnToggle);
+  // });
 
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.className = "card-text";
     p.textContent = key+": "+book[key];
     if (key==="title") {
-      p.innerHTML = "<b>"+book[key]+"</b>";
+      p.innerHTML = '<img class="icon position-absolute top-0 start-50 " src="assets/book.svg" alt="LIBRARY"> <b>'+book[key]+'</b>';
       bookCardHeader.appendChild(p);
       bookCardHeader.appendChild(btnRemove);
       bookCard.appendChild(bookCardHeader);
@@ -74,13 +90,15 @@ function updateDisplay(book, bookIndex) {
     };
     if (key==="status") {
       if(book[key]===true){ 
-        p.innerHTML = "Status: <span class=text-success >read</span>";
-        btnToggle.innerHTML = "Mark Unread";
-        btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
+        p.innerHTML = "Status: read";
+        // btnToggle.innerHTML = "Mark Unread";
+        // btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
+        btnToggleInput.checked = true;
       } else {
-        p.innerHTML = "Status: <span class=text-danger >unread</span>";
-        btnToggle.innerHTML = "Mark read";
-        btnToggle.className = "btn btn-success rounded-pill btn-sm";
+        p.innerHTML = "Status: unread";
+        // btnToggle.innerHTML = "Mark read";
+        // btnToggle.className = "btn btn-success rounded-pill btn-sm";
+        btnToggleInput.checked = false;
       }
     }
     
@@ -90,7 +108,8 @@ function updateDisplay(book, bookIndex) {
   bookCol.appendChild(bookCard);
   bookCard.appendChild(bookCardBody);
   bookCardBody.appendChild(bookCardFragment);
-  bookCardFooter.appendChild(btnToggle);
+  // bookCardFooter.appendChild(btnToggle);
+  bookCardFooter.appendChild(btnToggleContainer);
   bookCard.appendChild(bookCardFooter);
   bookContainer.appendChild(bookCol);
 }
