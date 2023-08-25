@@ -25,8 +25,10 @@ function toggleStatus(book, bookCard, btnToggle) {
 }
 
 function removeBook() {
- this.parentElement.parentElement.parentElement.remove();
- myLibrary.splice(this.bookindex,1);
+  const bookCounter = document.getElementById("book-counter");
+  this.parentElement.parentElement.parentElement.remove();
+  myLibrary.splice(this.bookindex,1);
+  bookCounter.textContent = myLibrary.length + " Books in galery" ;
 }
 
 function updateDisplay(book, bookIndex) {
@@ -38,7 +40,6 @@ function updateDisplay(book, bookIndex) {
   const bookCardFooter = document.createElement('div');
   const bookCardHeader = document.createElement('div');
   const btnRemove = document.createElement('button');
-  // const btnToggle = document.createElement('button');
   const btnToggleContainer = document.createElement('div');
   const btnToggleInput = document.createElement('input');
   const btnToggleLabel = document.createElement('label');
@@ -70,13 +71,6 @@ function updateDisplay(book, bookIndex) {
   toggleStatus(book, bookCardBody, btnToggleInput);
   });
 
-  // btnToggle.className = "btn btn-outline-info rounded-pill btn-sm";
-  // btnToggle.innerHTML = "Toggle Status";
-  // btnToggle.bookIndex = bookIndex;
-  // btnToggle.addEventListener('click', () => {
-  //   toggleStatus(book, bookCardBody, btnToggle);
-  // });
-
   Object.keys(book).forEach((key) => {
     let p = document.createElement('p');
     p.className = "card-text";
@@ -91,13 +85,9 @@ function updateDisplay(book, bookIndex) {
     if (key==="status") {
       if(book[key]===true){ 
         p.innerHTML = "status: Read";
-        // btnToggle.innerHTML = "Mark Unread";
-        // btnToggle.className = "btn btn-outline-secondary rounded-pill btn-sm";
         btnToggleInput.checked = true;
       } else {
         p.innerHTML = "status: Unread";
-        // btnToggle.innerHTML = "Mark read";
-        // btnToggle.className = "btn btn-success rounded-pill btn-sm";
         btnToggleInput.checked = false;
       }
     }
@@ -108,7 +98,6 @@ function updateDisplay(book, bookIndex) {
   bookCol.appendChild(bookCard);
   bookCard.appendChild(bookCardBody);
   bookCardBody.appendChild(bookCardFragment);
-  // bookCardFooter.appendChild(btnToggle);
   bookCardFooter.appendChild(btnToggleContainer);
   bookCard.appendChild(bookCardFooter);
   bookContainer.appendChild(bookCol);
@@ -124,11 +113,12 @@ function addBookModal(e){
 }
 
 function addBookToLibrary(title, author, pages, status) {
+  const bookCounter = document.getElementById("book-counter");
   const newBook = new Book(title, author, pages, status);
   const bookIndex = (myLibrary.push(newBook) - 1);
 
   updateDisplay(newBook, bookIndex);
-  console.log("Total in library: "+myLibrary.length);
+  bookCounter.textContent = myLibrary.length + " Books in galery" ;
 }
 
 const formAddBook = document.getElementById('form-addBook');
